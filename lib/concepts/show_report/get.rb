@@ -1,5 +1,6 @@
 require "connections/realtime"
 require "ostruct"
+require "reform/contract"
 require "reform/form"
 require "reform/form/coercion"
 require "trailblazer/operation"
@@ -7,7 +8,7 @@ require "trailblazer/operation"
 module ShowReport
   class Get < Trailblazer::Operation
     contract do
-      include Coercion
+      include Reform::Form::Coercion
 
       property :market_code
       property :interval
