@@ -1,13 +1,17 @@
 require "connections/realtime"
 require "ostruct"
+require "reform/form"
+require "reform/form/coercion"
 require "trailblazer/operation"
 
 module ShowReport
   class Get < Trailblazer::Operation
     contract do
+      include Coercion
+
       property :market_code
       property :interval
-      property :start_on
+      property :start_on, type: Date
 
       validates :interval, inclusion: {in: %w(1d 1w), message: "is invalid; only '1d' and '1w' are valid values"}
       validates :market_code, inclusion: RDB[:active_show_markets].select_map(:short_name)
@@ -21,9 +25,8 @@ module ShowReport
           filter(short_name: form.market_code).
           first
 
-        start_on = Date.parse(form.start_on)
         show_reports_params = {
-          start_on: start_on,
+          start_on: form.start_on,
           market_id: market.fetch(:market_id),
           valid_starting_on: Date.new(2011, 8, 29),
           interval: form.interval

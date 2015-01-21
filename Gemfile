@@ -9,3 +9,4 @@ gem "sequel-redshift", git: "https://github.com/knaveofdiamonds/sequel-redshift.
 gem "sinatra"
 gem "trailblazer"
 gem "unicorn"
+gem "virtus"
